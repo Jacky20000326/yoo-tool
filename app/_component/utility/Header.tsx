@@ -5,17 +5,9 @@ import { Flex } from "antd";
 import { Col, Row } from "antd";
 const Header = () => {
     return (
-        <Flex justify={"space-between"} className={Styled.headerContainer}>
-            <div className={Styled.logoCube}>
-                <Image
-                    src="/logo.png"
-                    width={100}
-                    height={100}
-                    alt="Picture of the author"
-                />
-            </div>
+        <Flex justify="end" align="center" className={Styled.headerContainer}>
             <div className="menu">
-                <div className="menuList">配牌工具</div>
+                <div className={Styled.menuList}>配牌工具</div>
             </div>
         </Flex>
     );
