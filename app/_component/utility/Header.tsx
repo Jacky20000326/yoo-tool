@@ -1,8 +1,7 @@
 import React from "react";
 import Styled from "./Header.module.css";
-import Image from "next/image";
 import { Flex } from "antd";
-import { Col, Row } from "antd";
+
 const Header = () => {
     return (
         <Flex justify="end" align="center" className={Styled.headerContainer}>
