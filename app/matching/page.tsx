@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import MahJong from "../_component/Matching/MahJong";
-import Porker from "../_component/Matching/Porker";
+import MahJong from "../_component/Matching/mahjomg/MahJong";
+import Porker from "../_component/Matching/porker/Porker";
 import Styled from "./matching.module.css";
 import { useState } from "react";
 import { Select } from "antd";
