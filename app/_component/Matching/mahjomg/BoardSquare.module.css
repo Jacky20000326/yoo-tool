@@ -1,0 +1,8 @@
+.dropPlace{
+    border: thick double #32a1ce;;
+    width: 60px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -4,8 +4,8 @@ import { Flex } from "antd";
 import { useDrop } from "react-dnd";
 import { ItemTypes } from "@/app/_lib/dnd/Constants";
 import { CardType, cardDragState,DragState } from "../../../_lib/card/mahJong/Card";
-
-
+// import { PlusSquareOutlined } from '@ant-design/icons';
+import styled from './BoardSquare.module.css'
 
 const BoardSquare = ({
     children,
@@ -23,7 +23,7 @@ const BoardSquare = ({
         console.log(playerCardList)
         let findResult = playerCardList.findIndex(card => card.id == item.id)
 
-        if(findResult == -1 && !!item.canDrag){
+        if(findResult == -1 && !!item.canDrag && playerCardList.length < 13){
             console.log("canDrag")
             setPlayerCardList((card) => [...card, item]);
             removeCardAtCardList(item)
@@ -45,23 +45,28 @@ const BoardSquare = ({
     });
 
     return (
-        <Flex
-            ref={drop}
-            style={{
-                margin: "10px 0px 0px 0px",
-                position: "relative",
-                width: "100%",
-                minHeight: "50vh",
-                backgroundColor: "#E5E5E5",
-                padding: "1em",
-                borderRadius: "10px"
-            }}
-            className="player1HandCards"
-            gap="middle"
-            wrap="wrap"
-        >
-            {children}
-        </Flex>
+        <>
+            <Flex
+                ref={drop}
+                style={{
+                    margin: "10px 0px 0px 0px",
+                    position: "relative",
+                    width: "100%",
+                    minHeight: "50vh",
+                    backgroundColor: "#E5E5E5",
+                    padding: "1em",
+                    borderRadius: "10px"
+                }}
+                className="player1HandCards"
+                gap="middle"
+                wrap="wrap"
+            >
+                
+                {children}
+            </Flex>
+            
+        </>
+        
     );
 };
 

@@ -76,7 +76,7 @@ const DrapPicture = ({
             // 在此处处理放置操作
         },
         hover: (item, monitor) => {
-            console.log(index);
+            console.log(index)
         },
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),

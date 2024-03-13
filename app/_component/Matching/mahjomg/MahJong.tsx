@@ -44,7 +44,7 @@ const MahJong = () => {
             <Row gutter={16} style={{width:"100%",minHeight:"50vh"}}>
                 <Col span={6} >
                     <div className={styled.player}>
-                        <span>player1</span>
+                        <span className={styled.playerTxt}>player1</span>
                         <BoardSquare
                             setPlayerCardList={setPlayer1CardList}
                             playerCardList={player1CardList}
@@ -62,15 +62,20 @@ const MahJong = () => {
                                     
                                 />
                             ))}
-                            <div className={styled.dropPlace}>
-                            <PlusSquareOutlined />
-                            </div>
+                            {
+                                player1CardList.length < 13 ? <div className={styled.dropPlace}>
+                                <PlusSquareOutlined />
+                                </div> : <div className={styled.dropFinish}>
+                                    完成!
+                                </div>
+                            }
+                        
                         </BoardSquare>
                     </div>
                 </Col>
                 <Col span={6}>
                     <div className={styled.player}>
-                        <span>player2</span>
+                        <span className={styled.playerTxt}>player2</span>
                         <BoardSquare
                             setPlayerCardList={setPlayer2CardList}
                             playerCardList={player2CardList}
@@ -87,15 +92,20 @@ const MahJong = () => {
                                     revertCardAtCardList={revertCardAtCardList}
                                 />
                             ))}
-                            <div className={styled.dropPlace}>
-                                <PlusSquareOutlined />
-                            </div>
+                            {
+                                player2CardList.length < 13 ? <div className={styled.dropPlace}>
+                                    <PlusSquareOutlined />
+                                </div> :  <div className={styled.dropFinish}>
+                                    完成!
+                                </div>
+                            }
+                            
                         </BoardSquare>
                     </div>
                 </Col>
                 <Col span={6}>
                     <div className={styled.player}>
-                        <span>player3</span>
+                        <span className={styled.playerTxt}>player3</span>
                         <BoardSquare
                             setPlayerCardList={setPlayer3CardList}
                             playerCardList={player3CardList}
@@ -112,15 +122,20 @@ const MahJong = () => {
                                     revertCardAtCardList={revertCardAtCardList}
                                 />
                             ))}
-                            <div className={styled.dropPlace}>
-                            <PlusSquareOutlined />
-                            </div>
+                             {
+                                player3CardList.length < 13 ? <div className={styled.dropPlace}>
+                                    <PlusSquareOutlined />
+                                </div> :  <div className={styled.dropFinish}>
+                                    完成!
+                                </div>
+                            }
+                            
                         </BoardSquare>
                     </div>
                 </Col>
                 <Col span={6}>
                     <div className={styled.player}>
-                        <span>player4</span>
+                        <span className={styled.playerTxt}>player4</span>
                         <BoardSquare
                             setPlayerCardList={setPlayer4CardList}
                             playerCardList={player4CardList}
@@ -137,16 +152,20 @@ const MahJong = () => {
                                     revertCardAtCardList={revertCardAtCardList}
                                 />
                             ))}
-                            <div className={styled.dropPlace}>
-                            <PlusSquareOutlined />
-                            </div>
+                           {
+                                player4CardList.length < 13 ? <div className={styled.dropPlace}>
+                                    <PlusSquareOutlined />
+                                </div> : <div className={styled.dropFinish}>
+                                    完成!
+                                </div>
+                            }
                         </BoardSquare>
                     </div>
                 </Col>
             </Row>
         </Flex>
-        <div className="otherCard">
-                <span>card pool</span>
+        <div className={styled.otherCard}>
+                <span className={styled.cardPoolTxt}>card pool</span>
                 <div className="otherCard">
                     <BoardSquare
                         setPlayerCardList={setCardList}
