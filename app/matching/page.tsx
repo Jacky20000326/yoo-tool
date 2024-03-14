@@ -8,7 +8,7 @@ import { Select } from "antd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-const matching = () => {
+const Matching = () => {
     const [mode, setMode] = useState("mahJong");
     const handleChange = (value: { value: string; label: React.ReactNode }) => {
         setMode((mode) => (mode = value.value));
@@ -40,4 +40,4 @@ const matching = () => {
     );
 };
 
-export default matching;
+export default Matching;
