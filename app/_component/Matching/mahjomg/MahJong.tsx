@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Flex, Tag } from "antd";
+import { Flex, Tag,Modal } from "antd";
 import { Card, createAllCard, CardType } from "../../../_lib/card/mahJong/Card";
 import DrapPicture from "./DrapPicture";
 import BoardSquare from "./BoardSquare";
 import styled from "./MahJong.module.css";
 import { PlusSquareOutlined } from '@ant-design/icons';
-import { Col, Row } from 'antd';
+import { Col, Row,Button } from 'antd';
+import { paiCard } from '../../../_lib/card/mahJong/paiCard'
 export const DraggableCard = () => {};
 const MahJong = () => {
     // card pool
@@ -19,6 +20,22 @@ const MahJong = () => {
     let [player3CardList, setPlayer3CardList] = useState<CardType[]>([]);
     // player4
     let [player4CardList, setPlayer4CardList] = useState<CardType[]>([]);
+
+    // === pop up controller
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+        
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
     // ==== CardList ====
 
@@ -187,8 +204,17 @@ const MahJong = () => {
                 </div>
                 <div className="otherCard2"></div>
             </div>
+         
+            <Flex vertical gap="small" style={{ width: '100%',marginTop: "20px" }}>
+                <Button  disabled={cardList.length == 99}   onClick={showModal}> 
+                        产生配牌字串
+                </Button>
+            </Flex>
+            <Modal title="配牌TOOL" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>{paiCard(player1CardList,player2CardList,player3CardList,player4CardList,cardList)}</p>
+            </Modal>
         </>
     );
 };
-
+111111111111111111111111
 export default MahJong;

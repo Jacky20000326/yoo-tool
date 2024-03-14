@@ -1,6 +1,9 @@
-import React from "react";
+import React from 'react';
+import ReactDom from 'react-dom';
 
-const Porker = () => {
-    return <div>Porker</div>;
-};
+
+
+const Porker = () => (
+   <div>Porker</div>
+  );
 export default Porker;
