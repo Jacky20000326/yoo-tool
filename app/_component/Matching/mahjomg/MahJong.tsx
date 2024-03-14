@@ -205,7 +205,7 @@ const MahJong = () => {
                 <div className="otherCard2"></div>
             </div>
             <Flex vertical gap="small" style={{ width: '100%',marginTop: "20px" }}>
-                <Button  disabled={cardList.length == 99}   onClick={showModal}> 
+                <Button disabled={cardList.length != 98}   onClick={showModal}> 
                         产生配牌字串
                 </Button>
             </Flex>
