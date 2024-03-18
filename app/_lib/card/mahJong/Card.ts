@@ -94,6 +94,8 @@ export const Card = [{
     id: "40", category: 'h', bg: 'h6',canDrag: 1 , value: '47'
 },{
     id: "41", category: 'h', bg: 'h7',canDrag: 1 , value: '48'
+},{
+    id: "42", category: 'h', bg: 'h8',canDrag: 1 , value: '49'
 }
 // ,{
 //     id: "42", category: 'h', bg: 'h8',canDrag: 1 , value: '49'
@@ -109,10 +111,11 @@ export const createAllCard = ():CardType[]=>{
                 newCardArr.push(card)
             }
         }else if(card.category == 'h'){
-            for(let i = 0;i<2;i++){
-                card = {...card,id: card.id +"_"+i}
-                newCardArr.push(card)
-            }
+            // for(let i = 0;i<2;i++){
+            //     card = {...card,id: card.id +"_"+i}
+            //     newCardArr.push(card)
+            // }
+            newCardArr.push(card)
         }else{
             newCardArr.push(card)
         }
