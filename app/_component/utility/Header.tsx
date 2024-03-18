@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <Flex justify="end" align="center" className={Styled.headerContainer}>
             <div className="menu">
-                <div className={Styled.menuList}>配牌工具</div>
+                <div className={Styled.menuList}>Yoo Tools</div>
             </div>
         </Flex>
     );

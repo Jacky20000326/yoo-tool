@@ -8,6 +8,7 @@ import styled from "./MahJong.module.css";
 import { PlusSquareOutlined } from '@ant-design/icons';
 import { Col, Row,Button } from 'antd';
 import { paiCard } from '../../../_lib/card/mahJong/paiCard'
+import Radio from "antd/lib/radio";
 export const DraggableCard = () => {};
 const MahJong = () => {
     // card pool
@@ -20,6 +21,9 @@ const MahJong = () => {
     let [player3CardList, setPlayer3CardList] = useState<CardType[]>([]);
     // player4
     let [player4CardList, setPlayer4CardList] = useState<CardType[]>([]);
+
+    // banker
+    let [banker, setBanker] = useState<number>(1);
 
     // === pop up controller
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +40,13 @@ const MahJong = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    
+    // banker
+
+    const setCurrentBanker = (banker:number)=>{
+        setBanker(isBanker => isBanker = banker )
+    }
+    
 
     // ==== CardList ====
 
@@ -57,8 +68,15 @@ const MahJong = () => {
 
     return (
         <>
-        <Flex vertical={false} gap="large" className="MahJongContainer">
+        <Flex vertical={false} gap="large" className={styled.MahJongContainer}>
             <Row gutter={16} style={{width:"100%",minHeight:"50vh"}}>
+            <Radio.Group className={styled.radioContainer} value={banker} onChange={(e)=>{setBanker(e.target.value)}}>
+                <Radio className={styled.radio1} value={1}>庄</Radio>
+                <Radio className={styled.radio2} value={2}>庄</Radio>
+                <Radio className={styled.radio3} value={3}>庄</Radio>
+                <Radio className={styled.radio4} value={4}>庄</Radio>
+            </Radio.Group>
+
                 <Col span={6} >
                     <div className={styled.player}>
                         <span className={styled.playerTxt}>player1</span>
@@ -210,7 +228,7 @@ const MahJong = () => {
                 </Button>
             </Flex>
             <Modal title="配牌TOOL" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <p>{paiCard(player1CardList,player2CardList,player3CardList,player4CardList,cardList)}</p>
+                <p>{paiCard(player1CardList,player2CardList,player3CardList,player4CardList,cardList,banker)}</p>
             </Modal>
         </>
     );

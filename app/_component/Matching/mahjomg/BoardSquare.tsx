@@ -20,11 +20,11 @@ const BoardSquare = ({
 }) => {
 
     const sortAndUpdateCard = (item: CardType) => {
-       
+    
         let findResult = playerCardList.findIndex(card => card.id == item.id)
 
         if(findResult == -1 && !!item.canDrag && playerCardList.length < 13){
-           
+        
             setPlayerCardList((card) => [...card, item]);
             removeCardAtCardList(item)
             cardDragState(item,DragState.CANNOTDRAG)

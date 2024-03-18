@@ -8,7 +8,7 @@ export const playerPaiCardFormat = (player: CardType[]):string=>{
 }
 
 
-export const PaiCardtemplateFormat = (player1:string,player2:string,player3:string,player4:string,allCard: CardType[])=>{
+export const PaiCardtemplateFormat = (player1:string,player2:string,player3:string,player4:string,allCard: CardType[],banker:number)=>{
 	let halfNum = allCard.length / 2 ;
 
 	console.log(allCard)
@@ -27,7 +27,7 @@ export const PaiCardtemplateFormat = (player1:string,player2:string,player3:stri
 				<goodcard>1</goodcard>
 				<seed>0</seed>
 				<srand>1</srand>
-				<banker>0</banker>
+				<banker>${banker - 1}</banker>
 				<table player1="0" player2="0">
 					<CardPool2>${allCardInSecondArrToString}</CardPool2>
 					<CardPool1>${allCardInFirstArrToString}</CardPool1>
@@ -41,12 +41,12 @@ export const PaiCardtemplateFormat = (player1:string,player2:string,player3:stri
 	)
 }
 
-export const paiCard = (player1CardList: CardType[],player2CardList: CardType[],player3CardList: CardType[],player4CardList: CardType[],allCardList: CardType[]) => {
+export const paiCard = (player1CardList: CardType[],player2CardList: CardType[],player3CardList: CardType[],player4CardList: CardType[],allCardList: CardType[],banker:number) => {
 	let player1paiCard = playerPaiCardFormat(player1CardList)
 	let player2paiCard = playerPaiCardFormat(player2CardList)
 	let player3paiCard = playerPaiCardFormat(player3CardList)
 	let player4paiCard = playerPaiCardFormat(player4CardList)
 	// let allpaiCard = playerPaiCardFormat(allCardList)
-    return PaiCardtemplateFormat(player1paiCard,player2paiCard,player3paiCard,player4paiCard,allCardList)
+    return PaiCardtemplateFormat(player1paiCard,player2paiCard,player3paiCard,player4paiCard,allCardList,banker)
 };
 
