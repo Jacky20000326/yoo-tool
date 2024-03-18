@@ -49,12 +49,12 @@ const DrapPicture = ({
 
     
 
-    const [{ }, drag, preview] = useDrag(
+    const [{ isDragging }, drag, preview] = useDrag(
         () => ({
             type: ItemTypes.CARD,
 
             collect: (monitor) => ({
-                // isDragging: monitor.isDragging() ? 0.5 : 1,
+                isDragging: !!monitor.isDragging()
             }),
             item: pictureInfo,
 
@@ -86,7 +86,7 @@ const DrapPicture = ({
 
     return (
             <div className={styled.DragPicture} ref={drag}>
-                <div className="DropPicture" ref={drop}>
+                <div style={{"borderLeft": isOver ? "thick double #32a1ce" : "thick double transparent"}}  className={styled.PictureContainer} ref={drop}>
                     <Image
                         width={60}
                         height={90}
