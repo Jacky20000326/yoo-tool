@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Card, createAllCard, CardType } from "../../../_lib/card/mahJong/Card";
 import DrapPicture from "./DrapPicture";
 import BoardSquare from "./BoardSquare";
@@ -71,7 +71,9 @@ const MahJong = () => {
 
     
 
-   
+    useEffect(()=>{
+        sortCardList()
+    },[])
 
 
     return (
