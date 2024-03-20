@@ -1,12 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { Flex, Tag,Modal } from "antd";
 import { Card, createAllCard, CardType } from "../../../_lib/card/mahJong/Card";
 import DrapPicture from "./DrapPicture";
 import BoardSquare from "./BoardSquare";
 import styled from "./MahJong.module.css";
-import { PlusSquareOutlined } from '@ant-design/icons';
-import { Col, Row,Button } from 'antd';
+import { PlusSquareOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Col, Row,Button,Flex, Tag,Modal, Tooltip  } from 'antd';
 import { paiCard } from '../../../_lib/card/mahJong/paiCard'
 import Radio from "antd/lib/radio";
 export const DraggableCard = () => {};
@@ -25,7 +24,7 @@ const MahJong = () => {
     // banker
     let [banker, setBanker] = useState<number>(1);
 
-    // === pop up controller
+    // ==== pop up controller ====
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -41,7 +40,7 @@ const MahJong = () => {
         setIsModalOpen(false);
     };
     
-    // banker
+    // ==== banker ====
 
     const setCurrentBanker = (banker:number)=>{
         setBanker(isBanker => isBanker = banker )
@@ -55,7 +54,7 @@ const MahJong = () => {
     }
 
     const revertCardAtCardList = (card:CardType)=>{
-        console.log('aaaaa')
+        
         setCardList(item => {
             let newList =  [...item,card]
 
@@ -63,7 +62,16 @@ const MahJong = () => {
         })
     }
 
+    const sortCardList = ()=>{
+        
+        const sortedList = [...cardList].sort((pre, next) => Number(pre.value) - Number(next.value));
+            
+        setCardList(sortedList);
+    }
+
     
+
+   
 
 
     return (
@@ -201,6 +209,9 @@ const MahJong = () => {
         </Flex>
         <div className={styled.otherCard}>
                 <span className={styled.cardPoolTxt}>card pool</span>
+                <Tooltip title="重整" >
+                    <Button onClick={sortCardList} type="default" size="small" style={{marginLeft: "20px"}} shape="circle" icon={<ReloadOutlined /> } />
+                </Tooltip>
                 <div className="otherCard">
                     <BoardSquare
                         setPlayerCardList={setCardList}

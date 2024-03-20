@@ -13,23 +13,23 @@ export enum DragState {
 
 
 export const Card = [{
-    id: "1", category: 'w', bg: 'w1',canDrag: 1 , value: '01'
+    id: "1", category: 'w', bg: 'w1',canDrag: 1 , value: '1'
 },{
-    id: "2", category: 'w', bg: 'w2',canDrag: 1 , value: '02'
+    id: "2", category: 'w', bg: 'w2',canDrag: 1 , value: '2'
 },{
-    id: "3", category: 'w', bg: 'w3',canDrag: 1 , value: '03'
+    id: "3", category: 'w', bg: 'w3',canDrag: 1 , value: '3'
 },{
-    id: "4", category: 'w', bg: 'w4',canDrag: 1 , value: '04'
+    id: "4", category: 'w', bg: 'w4',canDrag: 1 , value: '4'
 },{
-    id: "5", category: 'w', bg: 'w5',canDrag: 1 , value: '05'
+    id: "5", category: 'w', bg: 'w5',canDrag: 1 , value: '5'
 },{
-    id: "6", category: 'w', bg: 'w6',canDrag: 1 , value: '06'
+    id: "6", category: 'w', bg: 'w6',canDrag: 1 , value: '6'
 },{
-    id: "7", category: 'w', bg: 'w7',canDrag: 1 , value: '07'
+    id: "7", category: 'w', bg: 'w7',canDrag: 1 , value: '7'
 },{
-    id: "8", category: 'w', bg: 'w8',canDrag: 1 , value: '08'
+    id: "8", category: 'w', bg: 'w8',canDrag: 1 , value: '8'
 },{
-    id: "9", category: 'w', bg: 'w9',canDrag: 1 , value: '09'
+    id: "9", category: 'w', bg: 'w9',canDrag: 1 , value: '9'
 },{
     id: "10", category: 't', bg: 't1',canDrag: 1  , value: '21'
 },{
