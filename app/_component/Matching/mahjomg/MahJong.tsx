@@ -64,7 +64,7 @@ const MahJong = () => {
 
     const sortCardList = ()=>{
         
-        const sortedList = [...cardList].sort((pre, next) => Number(pre.value) - Number(next.value));
+        const sortedList = [...cardList].sort((pre, next) => pre.sort - next.sort);
             
         setCardList(sortedList);
     }
