@@ -16,9 +16,11 @@ interface PlayerListType {
 
 
     // action
-    setPlayerCard:(currState: number,card:CardType)=>void
+    addPlayerCard:(currState: number,card:CardType)=>void
+    setPlayerCard:(playerIndex:number,card:CardType[])=>void
     removePlayerCardAtList:(currState: number,card:CardType)=>void
     setCardGragState:(currBoardIndex:number,card:CardType,dragState:DragState)=>void
+    sortPlayerCard:(playerIndex:number)=>void
 }
 
 
@@ -53,15 +55,21 @@ export const usePlayerList = create<PlayerListType>((set,get)=>({
 
     playerCardList: [[],[],[],[]], // 依序为 [player1,player2,player3,player4]
     
-    setPlayerCard: (playerIndex:number,card:CardType)=>{
+    addPlayerCard: (playerIndex:number,card:CardType)=>{
         set(produce((state)=>{
             state.playerCardList[playerIndex].push(card)
         }))
     },
 
+    setPlayerCard: (playerIndex:number,cardList:CardType[])=>{
+        set(produce((state)=>{
+
+            state.playerCardList[playerIndex] = cardList;
+        }))
+    },
+
     removePlayerCardAtList:(playerIndex:number,card:CardType)=>{
         set(produce((state)=>{
-            console.log(playerIndex)
             state.playerCardList[playerIndex] = state.playerCardList[playerIndex].filter((item:CardType) => item.id != card.id)
         }))
     },
@@ -74,6 +82,12 @@ export const usePlayerList = create<PlayerListType>((set,get)=>({
                     Card.canDrag = dragState
                 }
             })
+        }))
+    },
+
+    sortPlayerCard:(playerIndex:number)=>{
+        set(produce((state)=>{
+            state.playerCardList[playerIndex] = state.playerCardList[playerIndex].sort((pre:CardType, next:CardType) => pre.sort - next.sort);
         }))
     }
 

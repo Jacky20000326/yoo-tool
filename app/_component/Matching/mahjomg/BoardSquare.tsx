@@ -1,61 +1,49 @@
 import React, { Dispatch, SetStateAction } from "react";
 
 import { Flex } from "antd";
-import { useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "@/app/_lib/dnd/Constants";
-import { CardType, cardDragState,DragState } from "../../../_lib/card/mahJong/Card";
+import { CardType, DragState } from "../../../_lib/card/mahJong/Card";
 // import { PlusSquareOutlined } from '@ant-design/icons';
-import { usePlayerList,useCardPool } from '../../../store/mahJongStore'
-import styled from './BoardSquare.module.css'
+import { usePlayerList, useCardPool } from "../../../store/mahJongStore";
+import styled from "./BoardSquare.module.css";
 
 const BoardSquare = ({
     children,
-    currBoardIndex
+    currBoardIndex,
 }: {
     children: React.ReactNode;
-    currBoardIndex:number | 'pool'
+    currBoardIndex: number | "pool";
 }) => {
-
-   
-
     // zustand store
-    let { setCardGragState,playerCardList,setPlayerCard }  = usePlayerList()
-    let { removeCardAtCardList } = useCardPool()
-
+    let {
+        removePlayerCardAtList,
+        setCardGragState,
+        playerCardList,
+        addPlayerCard,
+        sortPlayerCard,
+    } = usePlayerList();
+    let { removeCardAtCardList } = useCardPool();
 
     const sortAndUpdateCard = (item: CardType) => {
-        
-        if(typeof currBoardIndex == "number" ){
+        if (typeof currBoardIndex == "number") {
+            let playerList = playerCardList[currBoardIndex];
 
-            let playerList =  playerCardList[currBoardIndex]
+            let findResult = playerList.findIndex((card) => card.id == item.id);
 
-            let findResult = playerList.findIndex(card => card.id == item.id)
-    
-            if(findResult == -1 && !!item.canDrag && playerList.length < 13){
-                
-                setPlayerCard(currBoardIndex,item)
-    
-                removeCardAtCardList(item)
-    
-                setCardGragState(currBoardIndex,item,DragState.CANNOTDRAG)
+            if (findResult == -1 && playerList.length < 13) {
+                addPlayerCard(currBoardIndex, item);
+
+                removeCardAtCardList(item);
+
+                setCardGragState(currBoardIndex, item, DragState.CANNOTDRAG);
+
+                sortPlayerCard(currBoardIndex);
             }
         }
-    }; 
+    };
 
-    // const sortAndUpdateCard = (item: CardType) => {
-    
-    //     let findResult = playerCardList.findIndex(card => card.id == item.id)
-
-    //     if(findResult == -1 && !!item.canDrag && playerCardList.length < 13){
-        
-    //         setPlayerCardList((card) => [...card, item]);
-    //         removeCardAtCardList(item)
-    //         cardDragState(item,DragState.CANNOTDRAG)
-    //     }
-    // }; 
-
-
-    const [{ isOver }, drop] = useDrop({
+    const [{}, drop] = useDrop({
         accept: ItemTypes.CARD,
         drop: (item: CardType) => {
             sortAndUpdateCard(item);
@@ -66,6 +54,24 @@ const BoardSquare = ({
             isOver: !!monitor.isOver(),
         }),
     });
+
+    const [{}, drag, preview] = useDrag(
+        () => ({
+            type: ItemTypes.CARD,
+
+            collect: (monitor) => ({
+                // isDragging: !!monitor.isDragging(),
+            }),
+            item: currBoardIndex,
+
+            end: (item) => {
+                if (typeof currBoardIndex == "number") {
+                    console.log(item);
+                }
+            },
+        }),
+        []
+    );
 
     return (
         <>
@@ -85,12 +91,9 @@ const BoardSquare = ({
                 gap="middle"
                 wrap="wrap"
             >
-                
                 {children}
             </Flex>
-            
         </>
-        
     );
 };
 
