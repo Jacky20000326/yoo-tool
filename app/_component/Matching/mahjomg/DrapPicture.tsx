@@ -6,43 +6,42 @@ import { CardType, cardDragState,DragState } from "../../../_lib/card/mahJong/Ca
 import { Button } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styled from './DrapPicture.module.css'
-
+import { usePlayerList,useCardPool } from '../../../store/mahJongStore'
 const DrapPicture = ({
     pictureInfo,
-    cardList,
-    setPlayerCardList,
     index,
-    playerCardList,
-    revertCardAtCardList
+    currBoardIndex
 }: {
     pictureInfo: CardType;
-    cardList: CardType[];
-    setPlayerCardList: (cardType: CardType[]) => void;
     index: number;
-    playerCardList: CardType[],
-    revertCardAtCardList: (cardType: CardType) => void
+    currBoardIndex:number | 'pool'
+
 }) => {
 
+    let dafaultTarget = 0 // player1
+
+    let { playerCardList,setPlayerCard,removePlayerCardAtList }  = usePlayerList()
+    let { setCardPool,addCardPool,removeCardAtCardList,sortCardList,setCardGragState } = useCardPool()
 
     const removeCardAtPlayerList = (card:CardType)=>{
-        revertCardAtCardList(card)
-        cardDragState(card,DragState.CANDRAG)
-        let newArr = playerCardList.filter(item => item.id != card.id)
-        setPlayerCardList(newArr)
+        addCardPool(card) // revert card pool
+        setCardGragState(card,DragState.CANDRAG)
+        if(typeof currBoardIndex == "number"){
+            removePlayerCardAtList(currBoardIndex,card)
+        }
     }
 
 
     const swapCard = (Card:CardType, targetIndex:number) :void=> {
         // 确认playerCardList内是否有此card
-        let isExist =  playerCardList.find(card => card.id == Card.id)
+        let isExist =  playerCardList[dafaultTarget].find(card => card.id == Card.id)
         if(isExist){
-            let findResult = playerCardList.findIndex(card => card.id == Card.id)
-            const newItems = [...playerCardList];
+            let findResult = playerCardList[dafaultTarget].findIndex(card => card.id == Card.id)
+            const newItems = [...playerCardList[dafaultTarget]];
             [newItems[findResult], newItems[targetIndex]] = [newItems[targetIndex], newItems[findResult]];
-            setPlayerCardList(newItems)
+            setCardPool(newItems)
         }else{
-
-
+        
         }
         
     };
@@ -59,7 +58,7 @@ const DrapPicture = ({
             item: pictureInfo,
 
             end:(cardList,monitor)=>{
-                console.log(cardList)
+              
             },
 
 
@@ -71,12 +70,11 @@ const DrapPicture = ({
     const [{ isOver }, drop] = useDrop({
         accept: ItemTypes.CARD,
         drop: (item, monitor) => {
-            console.log({item, monitor})
+           
             swapCard(monitor.getItem(),index)
             // 在此处处理放置操作
         },
         hover: (item, monitor) => {
-            console.log(index)
         },
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),

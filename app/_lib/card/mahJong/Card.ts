@@ -1,3 +1,6 @@
+
+
+
 export interface CardType {
     id:string,
     category:string,
@@ -112,10 +115,6 @@ export const createAllCard = ():CardType[]=>{
                 newCardArr.push(card)
             }
         }else if(card.category == 'h'){
-            // for(let i = 0;i<2;i++){
-            //     card = {...card,id: card.id +"_"+i}
-            //     newCardArr.push(card)
-            // }
             newCardArr.push(card)
         }else{
             newCardArr.push(card)

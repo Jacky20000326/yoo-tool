@@ -5,31 +5,54 @@ import { useDrop } from "react-dnd";
 import { ItemTypes } from "@/app/_lib/dnd/Constants";
 import { CardType, cardDragState,DragState } from "../../../_lib/card/mahJong/Card";
 // import { PlusSquareOutlined } from '@ant-design/icons';
+import { usePlayerList,useCardPool } from '../../../store/mahJongStore'
 import styled from './BoardSquare.module.css'
 
 const BoardSquare = ({
     children,
-    setPlayerCardList,
-    playerCardList,
-    removeCardAtCardList
+    currBoardIndex
 }: {
     children: React.ReactNode;
-    setPlayerCardList: Dispatch<SetStateAction<CardType[]>>;
-    playerCardList: CardType[];
-    removeCardAtCardList: (removeCard:CardType)=>void
+    currBoardIndex:number | 'pool'
 }) => {
 
-    const sortAndUpdateCard = (item: CardType) => {
-    
-        let findResult = playerCardList.findIndex(card => card.id == item.id)
+   
 
-        if(findResult == -1 && !!item.canDrag && playerCardList.length < 13){
+    // zustand store
+    let { setCardGragState,playerCardList,setPlayerCard }  = usePlayerList()
+    let { removeCardAtCardList } = useCardPool()
+
+
+    const sortAndUpdateCard = (item: CardType) => {
         
-            setPlayerCardList((card) => [...card, item]);
-            removeCardAtCardList(item)
-            cardDragState(item,DragState.CANNOTDRAG)
+        if(typeof currBoardIndex == "number" ){
+
+            let playerList =  playerCardList[currBoardIndex]
+
+            let findResult = playerList.findIndex(card => card.id == item.id)
+    
+            if(findResult == -1 && !!item.canDrag && playerList.length < 13){
+                
+                setPlayerCard(currBoardIndex,item)
+    
+                removeCardAtCardList(item)
+    
+                setCardGragState(currBoardIndex,item,DragState.CANNOTDRAG)
+            }
         }
     }; 
+
+    // const sortAndUpdateCard = (item: CardType) => {
+    
+    //     let findResult = playerCardList.findIndex(card => card.id == item.id)
+
+    //     if(findResult == -1 && !!item.canDrag && playerCardList.length < 13){
+        
+    //         setPlayerCardList((card) => [...card, item]);
+    //         removeCardAtCardList(item)
+    //         cardDragState(item,DragState.CANNOTDRAG)
+    //     }
+    // }; 
 
 
     const [{ isOver }, drop] = useDrop({
@@ -55,7 +78,8 @@ const BoardSquare = ({
                     minHeight: "50vh",
                     backgroundColor: "#E5E5E5",
                     padding: "1em",
-                    borderRadius: "10px"
+                    borderRadius: "10px",
+                    // boxShadow: "0px 1px 2px 0px rgba(255, 165, 0,0.7),1px 2px 4px 0px rgba(255, 165, 0,0.7),2px 4px 8px 0px rgba(255, 165, 0,0.7),2px 4px 16px 0px rgba(255, 165, 0,0.7)"
                 }}
                 className="player1HandCards"
                 gap="middle"

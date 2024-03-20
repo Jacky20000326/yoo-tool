@@ -8,18 +8,25 @@ import { PlusSquareOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Col, Row,Button,Flex, Tag,Modal, Tooltip  } from 'antd';
 import { paiCard } from '../../../_lib/card/mahJong/paiCard'
 import Radio from "antd/lib/radio";
+import { useCurrControlPlayerList } from '../../../store/mahJongStore'
+import { usePlayerList,useCardPool } from '../../../store/mahJongStore'
 export const DraggableCard = () => {};
 const MahJong = () => {
+    // zustand store data
+    let { currControl,setCurrControl } = useCurrControlPlayerList()
+    let { playerCardList,setPlayerCard,removePlayerCardAtList }  = usePlayerList()
+    let { cardPoolList,setCardPool,addCardPool,removeCardAtCardList,sortCardList } = useCardPool()
+
     // card pool
-    let [cardList, setCardList] = useState<CardType[]>(createAllCard);
+    // let [cardList, setCardList] = useState<CardType[]>(createAllCard);
     // player1
-    let [player1CardList, setPlayer1CardList] = useState<CardType[]>([]);
+    // let [player1CardList, setPlayer1CardList] = useState<CardType[]>([]);
     // player2
-    let [player2CardList, setPlayer2CardList] = useState<CardType[]>([]);
+    // let [player2CardList, setPlayer2CardList] = useState<CardType[]>([]);
     // player3
-    let [player3CardList, setPlayer3CardList] = useState<CardType[]>([]);
+    // let [player3CardList, setPlayer3CardList] = useState<CardType[]>([]);
     // player4
-    let [player4CardList, setPlayer4CardList] = useState<CardType[]>([]);
+    // let [player4CardList, setPlayer4CardList] = useState<CardType[]>([]);
 
     // banker
     let [banker, setBanker] = useState<number>(1);
@@ -29,7 +36,6 @@ const MahJong = () => {
 
     const showModal = () => {
         setIsModalOpen(true);
-        
     };
 
     const handleOk = () => {
@@ -49,27 +55,27 @@ const MahJong = () => {
 
     // ==== CardList ====
 
-    const removeCardAtCardList = (removeCard:CardType)=>{
-        setCardList(item => item.filter(card => card.id != removeCard.id))
-    }
+    // const removeCardAtCardList = (removeCard:CardType)=>{
+    //     setCardList(item => item.filter(card => card.id != removeCard.id))
+    // }
 
-    const revertCardAtCardList = (card:CardType)=>{
+    // const revertCardAtCardList = (card:CardType)=>{
         
-        setCardList(item => {
-            let newList =  [...item,card]
+    //     setCardList(item => {
+    //         let newList =  [...item,card]
 
-            return newList
-        })
-    }
+    //         return newList
+    //     })
+    // }
 
-    const sortCardList = ()=>{
+    // const sortCardList = ()=>{
         
-        const sortedList = [...cardList].sort((pre, next) => pre.sort - next.sort);
+    //     const sortedList = [...cardList].sort((pre, next) => pre.sort - next.sort);
             
-        setCardList(sortedList);
-    }
+    //     setCardList(sortedList);
+    // }
 
-    
+
 
     useEffect(()=>{
         sortCardList()
@@ -80,61 +86,51 @@ const MahJong = () => {
         <>
         <Flex vertical={false} gap="large" className={styled.MahJongContainer}>
             <Row gutter={16} style={{width:"100%",minHeight:"50vh"}}>
-            <Radio.Group className={styled.radioContainer} value={banker} onChange={(e)=>{setBanker(e.target.value)}}>
-                <Radio className={styled.radio1} value={1}>庄</Radio>
-                <Radio className={styled.radio2} value={2}>庄</Radio>
-                <Radio className={styled.radio3} value={3}>庄</Radio>
-                <Radio className={styled.radio4} value={4}>庄</Radio>
-            </Radio.Group>
+                <Radio.Group className={styled.radioContainer} value={banker} onChange={(e)=>{setBanker(e.target.value)}}>
+                    <Radio className={styled.radio1} value={1}>庄</Radio>
+                    <Radio className={styled.radio2} value={2}>庄</Radio>
+                    <Radio className={styled.radio3} value={3}>庄</Radio>
+                    <Radio className={styled.radio4} value={4}>庄</Radio>
+                </Radio.Group>
 
-                <Col span={6} >
-                    <div className={styled.player}>
-                        <span className={styled.playerTxt}>player1</span>
-                        <BoardSquare
-                            setPlayerCardList={setPlayer1CardList}
-                            playerCardList={player1CardList}
-                            removeCardAtCardList={removeCardAtCardList}
-                        >
-                            {player1CardList.map((card, index) => (
-                                <DrapPicture
-                                    key={card.id}
-                                    pictureInfo={card}
-                                    cardList={cardList}
-                                    setPlayerCardList={setPlayer1CardList}
-                                    playerCardList={player1CardList}
-                                    index={index}
-                                    revertCardAtCardList={revertCardAtCardList}
-                                    
-                                />
-                            ))}
-                            {
-                                player1CardList.length < 13 ? <div className={styled.dropPlace}>
-                                <PlusSquareOutlined />
-                                </div> : <div className={styled.dropFinish}>
-                                    完成!
-                                </div>
-                            }
-                        
-                        </BoardSquare>
-                    </div>
-                </Col>
-                <Col span={6}>
+
+                {playerCardList.map((info,playerIndex) => (
+                    <Col span={6} key={playerIndex}>
+                        <div className={styled.player}>
+                            <span className={styled.playerTxt}>player1</span>
+                            <BoardSquare currBoardIndex={playerIndex}>
+                                {playerCardList[playerIndex].map((card, index) => (
+                                    <DrapPicture
+                                        key={card.id}
+                                        pictureInfo={card}
+                                        index={index}
+                                        currBoardIndex={playerIndex}
+                                    />
+                                ))}
+                                {
+                                    playerCardList[playerIndex].length < 13 ? <div className={styled.dropPlace}>
+                                    <PlusSquareOutlined />
+                                    </div> : <div className={styled.dropFinish}>
+                                        完成!
+                                    </div>
+                                }
+                            
+                            </BoardSquare>
+                        </div>
+                    </Col>
+                ))}
+
+
+                {/* <Col span={6}>
                     <div className={styled.player}>
                         <span className={styled.playerTxt}>player2</span>
-                        <BoardSquare
-                            setPlayerCardList={setPlayer2CardList}
-                            playerCardList={player2CardList}
-                            removeCardAtCardList={removeCardAtCardList}
-                        >
+                        <BoardSquare>
                             {player2CardList.map((card, index) => (
                                 <DrapPicture
                                     key={card.id}
                                     pictureInfo={card}
-                                    cardList={cardList}
-                                    setPlayerCardList={setPlayer2CardList}
                                     index={index}
-                                    playerCardList={player2CardList}
-                                    revertCardAtCardList={revertCardAtCardList}
+                                
                                 />
                             ))}
                             {
@@ -151,20 +147,14 @@ const MahJong = () => {
                 <Col span={6}>
                     <div className={styled.player}>
                         <span className={styled.playerTxt}>player3</span>
-                        <BoardSquare
-                            setPlayerCardList={setPlayer3CardList}
-                            playerCardList={player3CardList}
-                            removeCardAtCardList={removeCardAtCardList}
-                        >
+                        <BoardSquare>
                             {player3CardList.map((card, index) => (
                                 <DrapPicture
                                     key={card.id}
                                     pictureInfo={card}
-                                    cardList={cardList}
-                                    setPlayerCardList={setPlayer3CardList}
+                                    
                                     index={index}
-                                    playerCardList={player3CardList}
-                                    revertCardAtCardList={revertCardAtCardList}
+                                  
                                 />
                             ))}
                              {
@@ -181,20 +171,12 @@ const MahJong = () => {
                 <Col span={6}>
                     <div className={styled.player}>
                         <span className={styled.playerTxt}>player4</span>
-                        <BoardSquare
-                            setPlayerCardList={setPlayer4CardList}
-                            playerCardList={player4CardList}
-                            removeCardAtCardList={removeCardAtCardList}
-                        >
+                        <BoardSquare>
                             {player4CardList.map((card, index) => (
                                 <DrapPicture
                                     key={card.id}
                                     pictureInfo={card}
-                                    cardList={cardList}
-                                    setPlayerCardList={setPlayer4CardList}
                                     index={index}
-                                    playerCardList={player4CardList}
-                                    revertCardAtCardList={revertCardAtCardList}
                                 />
                             ))}
                            {
@@ -206,7 +188,7 @@ const MahJong = () => {
                             }
                         </BoardSquare>
                     </div>
-                </Col>
+                </Col> */}
             </Row>
         </Flex>
         <div className={styled.otherCard}>
@@ -215,20 +197,13 @@ const MahJong = () => {
                     <Button onClick={sortCardList} type="default" size="small" style={{marginLeft: "20px"}} shape="circle" icon={<ReloadOutlined /> } />
                 </Tooltip>
                 <div className="otherCard">
-                    <BoardSquare
-                        setPlayerCardList={setCardList}
-                        playerCardList={cardList}
-                        removeCardAtCardList={removeCardAtCardList}
-                    >
-                        {cardList.map((card, index) => (
+                    <BoardSquare currBoardIndex="pool">
+                        {cardPoolList.map((card, index) => (
                             <DrapPicture
                                 key={card.id}
                                 pictureInfo={card}
-                                cardList={cardList}
-                                setPlayerCardList={setCardList}
                                 index={index}
-                                playerCardList={cardList}
-                                revertCardAtCardList={revertCardAtCardList}
+                                currBoardIndex= "pool"
                             />
                         ))}
                     </BoardSquare>
@@ -236,13 +211,14 @@ const MahJong = () => {
                 <div className="otherCard2"></div>
             </div>
             <Flex vertical gap="small" style={{ width: '100%',marginTop: "20px" }}>
-                <Button disabled={cardList.length != 92}   onClick={showModal}> 
+                <Button disabled={cardPoolList.length != 92}   onClick={showModal}> 
                         产生配牌字串
                 </Button>
             </Flex>
             <Modal title="配牌TOOL" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <p>{paiCard(player1CardList,player2CardList,player3CardList,player4CardList,cardList,banker)}</p>
+                <p>{paiCard(playerCardList[0],playerCardList[1],playerCardList[2],playerCardList[3],cardPoolList,banker)}</p>
             </Modal>
+
         </>
     );
 };
