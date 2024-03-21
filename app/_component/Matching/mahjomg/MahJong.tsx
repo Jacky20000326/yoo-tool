@@ -144,9 +144,9 @@ const MahJong = () => {
                 <div className="otherCard">
                     <BoardSquare currBoardIndex="pool">
                         {cardPoolList.map((card, index) => (
-                            <div className="hanlerCube" onClick={()=>{addCardHandler(card)}}>
+                            <div className="hanlerCube" key={card.id} onClick={()=>{addCardHandler(card)}}>
                                 <DrapPicture
-                                    key={card.id}
+                                    
                                     pictureInfo={card}
                                     index={index}
                                     currBoardIndex="pool"
