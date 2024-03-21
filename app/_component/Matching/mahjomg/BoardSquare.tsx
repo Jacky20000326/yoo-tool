@@ -1,38 +1,53 @@
 import React, { Dispatch, SetStateAction } from "react";
 
 import { Flex } from "antd";
-import { useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "@/app/_lib/dnd/Constants";
-import { CardType, cardDragState,DragState } from "../../../_lib/card/mahJong/Card";
+import { CardType, DragState } from "../../../_lib/card/mahJong/Card";
 // import { PlusSquareOutlined } from '@ant-design/icons';
-import styled from './BoardSquare.module.css'
+import { usePlayerList, useCardPool } from "../../../store/mahJongStore";
+import styled from "./BoardSquare.module.css";
+import { useCurrControlPlayerList } from "../../../store/mahJongStore";
 
 const BoardSquare = ({
     children,
-    setPlayerCardList,
-    playerCardList,
-    removeCardAtCardList
+    currBoardIndex,
 }: {
     children: React.ReactNode;
-    setPlayerCardList: Dispatch<SetStateAction<CardType[]>>;
-    playerCardList: CardType[];
-    removeCardAtCardList: (removeCard:CardType)=>void
+    currBoardIndex: number | "pool";
 }) => {
-
+    // zustand store
+    let {
+        setCardGragState,
+        playerCardList,
+        addPlayerCard,
+        sortPlayerCard,
+    } = usePlayerList();
+    let { removeCardAtCardList } = useCardPool();
+    let { currControl, setCurrControl } = useCurrControlPlayerList();
     const sortAndUpdateCard = (item: CardType) => {
-    
-        let findResult = playerCardList.findIndex(card => card.id == item.id)
 
-        if(findResult == -1 && !!item.canDrag && playerCardList.length < 13){
-        
-            setPlayerCardList((card) => [...card, item]);
-            removeCardAtCardList(item)
-            cardDragState(item,DragState.CANNOTDRAG)
+        if (typeof currBoardIndex == "number") {
+
+            let playerList = playerCardList[currBoardIndex];
+
+            let findResult = playerList.findIndex((card) => card.id == item.id);
+
+            if (findResult == -1 && item.canDrag && playerList.length < 13) {
+
+                addPlayerCard(currBoardIndex, item);
+
+                removeCardAtCardList(item);
+
+                setCardGragState(currBoardIndex, item, DragState.CANNOTDRAG);
+
+                sortPlayerCard(currBoardIndex);
+            }
         }
-    }; 
+    };
 
 
-    const [{ isOver }, drop] = useDrop({
+    const [{}, drop] = useDrop({
         accept: ItemTypes.CARD,
         drop: (item: CardType) => {
             sortAndUpdateCard(item);
@@ -43,6 +58,7 @@ const BoardSquare = ({
             isOver: !!monitor.isOver(),
         }),
     });
+
 
     return (
         <>
@@ -55,18 +71,23 @@ const BoardSquare = ({
                     minHeight: "50vh",
                     backgroundColor: "#E5E5E5",
                     padding: "1em",
-                    borderRadius: "10px"
+                    borderRadius: "10px",
+                    outline: currControl == currBoardIndex   ? '3px solid lightgreen' : 'none'
+                    // boxShadow: "0px 1px 2px 0px rgba(255, 165, 0,0.7),1px 2px 4px 0px rgba(255, 165, 0,0.7),2px 4px 8px 0px rgba(255, 165, 0,0.7),2px 4px 16px 0px rgba(255, 165, 0,0.7)"
                 }}
+
+
                 className="player1HandCards"
                 gap="middle"
                 wrap="wrap"
             >
+                    {children}
+
                 
-                {children}
+
+                
             </Flex>
-            
         </>
-        
     );
 };
 
