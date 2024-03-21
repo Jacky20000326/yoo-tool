@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Card, createAllCard, CardType } from "../../../_lib/card/mahJong/Card";
+import { Card, createAllCard, CardType, DragState } from "../../../_lib/card/mahJong/Card";
 import DrapPicture from "./DrapPicture";
 import BoardSquare from "./BoardSquare";
 import styled from "./MahJong.module.css";
@@ -13,8 +13,9 @@ import { usePlayerList, useCardPool } from "../../../store/mahJongStore";
 export const DraggableCard = () => {};
 const MahJong = () => {
     // zustand store data
+    
     let { currControl, setCurrControl } = useCurrControlPlayerList();
-    let { playerCardList, addPlayerCard, removePlayerCardAtList } =
+    let { playerCardList, addPlayerCard, sortPlayerCard,setCardGragState } =
         usePlayerList();
     let {
         cardPoolList,
@@ -24,17 +25,7 @@ const MahJong = () => {
         sortCardList,
     } = useCardPool();
 
-    // card pool
-    // let [cardList, setCardList] = useState<CardType[]>(createAllCard);
-    // player1
-    // let [player1CardList, setPlayer1CardList] = useState<CardType[]>([]);
-    // player2
-    // let [player2CardList, setPlayer2CardList] = useState<CardType[]>([]);
-    // player3
-    // let [player3CardList, setPlayer3CardList] = useState<CardType[]>([]);
-    // player4
-    // let [player4CardList, setPlayer4CardList] = useState<CardType[]>([]);
-
+   
     // banker
     let [banker, setBanker] = useState<number>(1);
 
@@ -55,9 +46,18 @@ const MahJong = () => {
 
     // ==== banker ====
 
-    const setCurrentBanker = (banker: number) => {
-        setBanker((isBanker) => (isBanker = banker));
-    };
+
+
+    const addCardHandler = (card:CardType)=>{
+        if(playerCardList[currControl].length < 13){
+            addPlayerCard(currControl,card)
+            removeCardAtCardList(card)
+            setCardGragState(currControl,card,DragState.CANNOTDRAG)
+            sortPlayerCard(currControl);
+        }   
+      
+    }
+
 
     useEffect(() => {
         sortCardList();
@@ -94,33 +94,37 @@ const MahJong = () => {
 
                     {playerCardList.map((info, playerIndex) => (
                         <Col span={6} key={playerIndex}>
-                            <div className={styled.player}>
+                            <div className={styled.player} onClick={()=>{setCurrControl(playerIndex)}}>
                                 <span className={styled.playerTxt}>
                                     {"player" + (playerIndex + 1)}
                                 </span>
+                                    <BoardSquare currBoardIndex={playerIndex}>
+                                        {playerCardList[playerIndex].map(
+                                            (card, index) => (
+                                                    
+                                                        <DrapPicture
+                                                            key={index}
+                                                            pictureInfo={card}
+                                                            index={index}
+                                                            currBoardIndex={playerIndex}
+                                                        />
+                                                    
+                                                
+                                            )
+                                        )}
+                                        {playerCardList[playerIndex].length < 13 ? (
+                                            <div className={styled.dropPlace}>
+                                                <PlusSquareOutlined />
+                                            </div>
+                                        ) : (
+                                            <div className={styled.dropFinish}>
+                                                完成!
+                                            </div>
+                                        )}
+                                    </BoardSquare>
+                                </div>
 
-                                <BoardSquare currBoardIndex={playerIndex}>
-                                    {playerCardList[playerIndex].map(
-                                        (card, index) => (
-                                            <DrapPicture
-                                                key={index}
-                                                pictureInfo={card}
-                                                index={index}
-                                                currBoardIndex={playerIndex}
-                                            />
-                                        )
-                                    )}
-                                    {playerCardList[playerIndex].length < 13 ? (
-                                        <div className={styled.dropPlace}>
-                                            <PlusSquareOutlined />
-                                        </div>
-                                    ) : (
-                                        <div className={styled.dropFinish}>
-                                            完成!
-                                        </div>
-                                    )}
-                                </BoardSquare>
-                            </div>
+                        
                         </Col>
                     ))}
                 </Row>
@@ -140,12 +144,15 @@ const MahJong = () => {
                 <div className="otherCard">
                     <BoardSquare currBoardIndex="pool">
                         {cardPoolList.map((card, index) => (
-                            <DrapPicture
-                                key={card.id}
-                                pictureInfo={card}
-                                index={index}
-                                currBoardIndex="pool"
-                            />
+                            <div className="hanlerCube" onClick={()=>{addCardHandler(card)}}>
+                                <DrapPicture
+                                    key={card.id}
+                                    pictureInfo={card}
+                                    index={index}
+                                    currBoardIndex="pool"
+                                />
+                            </div>
+                            
                         ))}
                     </BoardSquare>
                 </div>

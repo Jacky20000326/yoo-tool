@@ -7,6 +7,7 @@ import { CardType, DragState } from "../../../_lib/card/mahJong/Card";
 // import { PlusSquareOutlined } from '@ant-design/icons';
 import { usePlayerList, useCardPool } from "../../../store/mahJongStore";
 import styled from "./BoardSquare.module.css";
+import { useCurrControlPlayerList } from "../../../store/mahJongStore";
 
 const BoardSquare = ({
     children,
@@ -17,21 +18,23 @@ const BoardSquare = ({
 }) => {
     // zustand store
     let {
-        removePlayerCardAtList,
         setCardGragState,
         playerCardList,
         addPlayerCard,
         sortPlayerCard,
     } = usePlayerList();
     let { removeCardAtCardList } = useCardPool();
-
+    let { currControl, setCurrControl } = useCurrControlPlayerList();
     const sortAndUpdateCard = (item: CardType) => {
+
         if (typeof currBoardIndex == "number") {
+
             let playerList = playerCardList[currBoardIndex];
 
             let findResult = playerList.findIndex((card) => card.id == item.id);
 
-            if (findResult == -1 && playerList.length < 13) {
+            if (findResult == -1 && item.canDrag && playerList.length < 13) {
+
                 addPlayerCard(currBoardIndex, item);
 
                 removeCardAtCardList(item);
@@ -42,6 +45,7 @@ const BoardSquare = ({
             }
         }
     };
+
 
     const [{}, drop] = useDrop({
         accept: ItemTypes.CARD,
@@ -55,23 +59,6 @@ const BoardSquare = ({
         }),
     });
 
-    const [{}, drag, preview] = useDrag(
-        () => ({
-            type: ItemTypes.CARD,
-
-            collect: (monitor) => ({
-                // isDragging: !!monitor.isDragging(),
-            }),
-            item: currBoardIndex,
-
-            end: (item) => {
-                if (typeof currBoardIndex == "number") {
-                    console.log(item);
-                }
-            },
-        }),
-        []
-    );
 
     return (
         <>
@@ -85,13 +72,20 @@ const BoardSquare = ({
                     backgroundColor: "#E5E5E5",
                     padding: "1em",
                     borderRadius: "10px",
+                    outline: currControl == currBoardIndex   ? '3px solid lightgreen' : 'none'
                     // boxShadow: "0px 1px 2px 0px rgba(255, 165, 0,0.7),1px 2px 4px 0px rgba(255, 165, 0,0.7),2px 4px 8px 0px rgba(255, 165, 0,0.7),2px 4px 16px 0px rgba(255, 165, 0,0.7)"
                 }}
+
+
                 className="player1HandCards"
                 gap="middle"
                 wrap="wrap"
             >
-                {children}
+                    {children}
+
+                
+
+                
             </Flex>
         </>
     );

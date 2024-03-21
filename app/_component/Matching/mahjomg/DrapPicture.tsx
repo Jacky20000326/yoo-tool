@@ -31,11 +31,13 @@ const DrapPicture = ({
     let { cardPoolList, setCardPool, addCardPool, setCardGragState } =
         useCardPool();
 
+
+
     const removeCardAtPlayerList = (card: CardType) => {
         addCardPool(card); // revert card pool
         setCardGragState(card, DragState.CANDRAG);
         if (typeof currBoardIndex == "number") {
-            // removePlayerCardAtList(currBoardIndex, card);
+            removePlayerCardAtList(currBoardIndex, card);
         }
     };
 
@@ -59,7 +61,7 @@ const DrapPicture = ({
         }
     };
 
-    const [{ isDragging }, drag, preview] = useDrag(
+    const [{  }, drag, preview] = useDrag(
         () => ({
             type: ItemTypes.CARD,
 
@@ -69,8 +71,10 @@ const DrapPicture = ({
             item: pictureInfo,
 
             end: () => {
+
+                
                 if (typeof currBoardIndex == "number") {
-                    // console.log(currBoardIndex);
+
                 }
             },
         }),
@@ -80,7 +84,13 @@ const DrapPicture = ({
     const [{ isOver }, drop] = useDrop({
         accept: ItemTypes.CARD,
         drop: (item, monitor) => {
-            swapCard(monitor.getItem(), index);
+           
+            if (typeof currBoardIndex !== "number") {
+                swapCard(monitor.getItem(), index);
+              
+               
+            }
+            
             // 在此处处理放置操作
         },
         hover: (item, monitor) => {},
