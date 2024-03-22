@@ -85,21 +85,21 @@ export const Card = [{
 },{
     id: "34", category: 'z', bg: 'z7',canDrag: 1 , value: '37',sort:37
 },{
-    id: "35", category: 'h', bg: 'h1',canDrag: 1 , value: '42',sort:42
+    id: "35", category: 'h', bg: 'h1',canDrag: 1 , value: '41',sort:41
 },{
-    id: "36", category: 'h', bg: 'h2',canDrag: 1 , value: '43',sort:43
+    id: "36", category: 'h', bg: 'h2',canDrag: 1 , value: '42',sort:42
 },{
-    id: "37", category: 'h', bg: 'h3',canDrag: 1 , value: '44',sort:44
+    id: "37", category: 'h', bg: 'h3',canDrag: 1 , value: '43',sort:43
 },{
-    id: "38", category: 'h', bg: 'h4',canDrag: 1 , value: '45',sort:45
+    id: "38", category: 'h', bg: 'h4',canDrag: 1 , value: '44',sort:44
 },{
-    id: "39", category: 'h', bg: 'h5',canDrag: 1 , value: '46',sort:46
+    id: "39", category: 'h', bg: 'h5',canDrag: 1 , value: '45',sort:45
 },{
-    id: "40", category: 'h', bg: 'h6',canDrag: 1 , value: '47',sort:47
+    id: "40", category: 'h', bg: 'h6',canDrag: 1 , value: '46',sort:46
 },{
-    id: "41", category: 'h', bg: 'h7',canDrag: 1 , value: '48',sort:48
+    id: "41", category: 'h', bg: 'h7',canDrag: 1 , value: '47',sort:47
 },{
-    id: "42", category: 'h', bg: 'h8',canDrag: 1 , value: '49',sort:49
+    id: "42", category: 'h', bg: 'h8',canDrag: 1 , value: '48',sort:48
 }
 // ,{
 //     id: "42", category: 'h', bg: 'h8',canDrag: 1 , value: '49'
