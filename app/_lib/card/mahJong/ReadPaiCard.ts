@@ -66,7 +66,7 @@ export const getCardDataAndTranArr = (transData:any)=>{
 
     // 将牌配对应Card资料
 
-    const findCardsByValues = (CardList:number[]) => {
+    const findCardsByValues = (CardList:number[],isCanDrag:number) => {
         let resultArr = [];
         for(let i = 0; i<CardList.length; i++){
             for(let j = 0; j<Card.length; j++){
@@ -74,7 +74,7 @@ export const getCardDataAndTranArr = (transData:any)=>{
                     resultArr.push({
                         id:  Card[j].id + i + j,
                         bg:  Card[j].bg,
-                        canDrag:  Card[j].canDrag,
+                        canDrag:  isCanDrag,
                         value:  Card[j].value,
                         sort:  Card[j].sort,
                     })
@@ -87,11 +87,11 @@ export const getCardDataAndTranArr = (transData:any)=>{
 
     
 
-    let cardPoolResultList = findCardsByValues(cardPool).reverse()
-    let player0ResultList = findCardsByValues(player0CardList)
-    let player1ResultList = findCardsByValues(player1CardList)
-    let player2ResultList = findCardsByValues(player2CardList)
-    let player3ResultList = findCardsByValues(player3CardList)
+    let cardPoolResultList = findCardsByValues(cardPool,1).reverse()
+    let player0ResultList = findCardsByValues(player0CardList,0)
+    let player1ResultList = findCardsByValues(player1CardList,0)
+    let player2ResultList = findCardsByValues(player2CardList,0)
+    let player3ResultList = findCardsByValues(player3CardList,0)
 
     return {cardPoolResultList,player0ResultList,player1ResultList,player2ResultList,player3ResultList}
 
