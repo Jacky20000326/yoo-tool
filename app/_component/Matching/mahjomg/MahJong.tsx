@@ -4,7 +4,7 @@ import { Card, createAllCard, CardType, DragState } from "../../../_lib/card/mah
 import DrapPicture from "./DrapPicture";
 import BoardSquare from "./BoardSquare";
 import styled from "./MahJong.module.css";
-import { PlusSquareOutlined, ReloadOutlined } from "@ant-design/icons";
+import { PlusSquareOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import { Col, Row, Button, Flex, message, Modal, Tooltip,Input,FloatButton   } from "antd";
 import { paiCard } from "../../../_lib/card/mahJong/paiCard";
 import Radio from "antd/lib/radio";
@@ -62,10 +62,6 @@ const OverWritePaiCardButton: React.FC = () => {
                         content: '配牌成功'
                     });
                     
-
-                    // setTimeout(()=>{
-                    //     setIsModalOpen(false);
-                    // },100) 
             }
 
 
@@ -112,7 +108,7 @@ const OverWritePaiCardButton: React.FC = () => {
 
 
 
-            <FloatButton onClick={showModal} />
+            <FloatButton onClick={showModal} type="primary"/>
         </>
     );
 }

@@ -72,7 +72,7 @@ const BoardSquare = ({
                     backgroundColor: "#E5E5E5",
                     padding: "1em",
                     borderRadius: "10px",
-                    outline: currControl == currBoardIndex   ? '3px solid lightgreen' : 'none'
+                    outline: currControl == currBoardIndex   ? '3px solid #E8AA51' : 'none'
                     // boxShadow: "0px 1px 2px 0px rgba(255, 165, 0,0.7),1px 2px 4px 0px rgba(255, 165, 0,0.7),2px 4px 8px 0px rgba(255, 165, 0,0.7),2px 4px 16px 0px rgba(255, 165, 0,0.7)"
                 }}
 
