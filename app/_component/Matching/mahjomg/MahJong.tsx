@@ -1,16 +1,124 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Card, createAllCard, CardType, DragState } from "../../../_lib/card/mahJong/Card";
 import DrapPicture from "./DrapPicture";
 import BoardSquare from "./BoardSquare";
 import styled from "./MahJong.module.css";
 import { PlusSquareOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Col, Row, Button, Flex, Tag, Modal, Tooltip } from "antd";
+import { Col, Row, Button, Flex, message, Modal, Tooltip,Input,FloatButton   } from "antd";
 import { paiCard } from "../../../_lib/card/mahJong/paiCard";
 import Radio from "antd/lib/radio";
 import { useCurrControlPlayerList } from "../../../store/mahJongStore";
 import { usePlayerList, useCardPool } from "../../../store/mahJongStore";
-export const DraggableCard = () => {};
+import { extractContentFromTags,getCardDataAndTranArr } from "@/app/_lib/card/mahJong/ReadPaiCard";
+
+
+const OverWritePaiCardButton: React.FC = () => {
+
+    const { TextArea } = Input;
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [messageApi, contextHolder] = message.useMessage(); 
+
+
+    const paiCardTxt = useRef<any>(null)
+
+    
+    let { setPlayerCard }  = usePlayerList();
+    let { setCardPool } = useCardPool();
+                
+
+    const showModal = () => {
+        setIsModalOpen(true);
+
+    };
+
+    const handleOk = () => {
+
+        
+        if (paiCardTxt.current) {
+            let getTxt = paiCardTxt.current.resizableTextArea.textArea.value 
+            let templete = `<templete>00</templete>` + getTxt  // `<templete>00</templete>` 让正规表达式侦测的样板  20240322 测试
+
+            let getPaiCardArrResult = extractContentFromTags(getTxt)
+
+            if(typeof  getCardDataAndTranArr(getPaiCardArrResult) == "string" || !getCardDataAndTranArr(getPaiCardArrResult)){
+                messageApi.open({
+                    type: 'error',
+                    content: '格式不正确你要配个毛啊 操'
+                });
+            }else{  
+
+                let { cardPoolResultList,player0ResultList,player1ResultList,player2ResultList,player3ResultList } = getCardDataAndTranArr(getPaiCardArrResult) as unknown as any
+                    setPlayerCard(0,player0ResultList)
+                    setPlayerCard(1,player1ResultList)
+                    setPlayerCard(2,player2ResultList)
+                    setPlayerCard(3,player3ResultList)
+                    setCardPool(cardPoolResultList)
+
+                    messageApi.open({
+                        type: 'success',
+                        content: '配牌成功'
+                    });
+                    
+
+                    // setTimeout(()=>{
+                    //     setIsModalOpen(false);
+                    // },100) 
+            }
+
+
+
+
+            
+
+
+        }
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+
+
+    
+
+    return (
+        <>
+            <Modal
+                title="放入配牌文挡"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText="开始配牌"
+                cancelText="取消">
+                <div className="description" style={{backgroundColor: "#ECEFF7",borderRadius:"10px",margin:"0px 0px 10px 0px",padding: "10px"}}>
+                    <h3>范例:</h3>
+                    <p>&lt;CardPool2&gt;49 48 47 46 45 44 43 42 37 37  ... (共41项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;CardPool1&gt;49 48 47 46 45 44 43 42 37 37  ... (共41项)&lt;/CardPool2&gt; </p>
+                    <p>&lt;player0&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;player1&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;player2&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;player3&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
+                </div>
+                <TextArea rows={12} placeholder="maxLength is 6" ref={paiCardTxt}/>
+              
+                {contextHolder}
+            </Modal>
+
+          
+
+
+
+            <FloatButton onClick={showModal} />
+        </>
+    );
+}
+
+
+
 const MahJong = () => {
     // zustand store data
     
@@ -25,7 +133,6 @@ const MahJong = () => {
         sortCardList,
     } = useCardPool();
 
-   
     // banker
     let [banker, setBanker] = useState<number>(1);
 
@@ -44,7 +151,7 @@ const MahJong = () => {
         setIsModalOpen(false);
     };
 
-    // ==== banker ====
+    const [messageApi, contextHolder] = message.useMessage(); 
 
 
 
@@ -54,8 +161,12 @@ const MahJong = () => {
             removeCardAtCardList(card)
             setCardGragState(currControl,card,DragState.CANNOTDRAG)
             sortPlayerCard(currControl);
-        }   
-      
+        }else{
+            messageApi.open({
+                type: 'warning',
+                content: '玩家手牌以补满无法新增'
+            });
+        }
     }
 
 
@@ -177,6 +288,7 @@ const MahJong = () => {
                 onCancel={handleCancel}
             >
                 <p>
+                    
                     {paiCard(
                         playerCardList[0],
                         playerCardList[1],
@@ -187,6 +299,8 @@ const MahJong = () => {
                     )}
                 </p>
             </Modal>
+            {contextHolder}
+            <OverWritePaiCardButton/>
         </>
     );
 };
