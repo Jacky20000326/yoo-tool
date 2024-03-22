@@ -96,12 +96,12 @@ const OverWritePaiCardButton: React.FC = () => {
                 cancelText="取消">
                 <div className="description" style={{backgroundColor: "#ECEFF7",borderRadius:"10px",margin:"0px 0px 10px 0px",padding: "10px"}}>
                     <h3>范例:</h3>
-                    <p>&lt;CardPool2&gt;49 48 47 46 45 44 43 42 37 37  ... (共13向)&lt;/CardPool2&gt;</p>
-                    <p>&lt;CardPool1&gt;49 48 47 46 45 44 43 42 37 37  ... (共13向)&lt;/CardPool2&gt; </p>
-                    <p>&lt;player0&gt;49 48 47 46 45 44 43 42 37 37  ... (共13向)&lt;/CardPool2&gt;</p>
-                    <p>&lt;player1&gt;49 48 47 46 45 44 43 42 37 37  ... (共13向)&lt;/CardPool2&gt;</p>
-                    <p>&lt;player2&gt;49 48 47 46 45 44 43 42 37 37  ... (共13向)&lt;/CardPool2&gt;</p>
-                    <p>&lt;player3&gt;49 48 47 46 45 44 43 42 37 37  ... (共13向)&lt;/CardPool2&gt;</p>
+                    <p>&lt;CardPool2&gt;49 48 47 46 45 44 43 42 37 37  ... (共41项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;CardPool1&gt;49 48 47 46 45 44 43 42 37 37  ... (共41项)&lt;/CardPool2&gt; </p>
+                    <p>&lt;player0&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;player1&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;player2&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
+                    <p>&lt;player3&gt;49 48 47 46 45 44 43 42 37 37  ... (共13项)&lt;/CardPool2&gt;</p>
                 </div>
                 <TextArea rows={12} placeholder="maxLength is 6" ref={paiCardTxt}/>
               
